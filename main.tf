@@ -3,55 +3,6 @@ provider vault{
   token = "hvs.0F8m6ealq5Ij0I10TfUoR0L4"
 
 }
-resource "aws_iam_role" "role" {
-  name = "test_role"
-
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = "sts:AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-      },
-    ]
-  })
-
-  tags = {
-    tag-key = "tag-value"
-  }
-}
-
-resource "aws_iam_policy" "policy" {
-  name        = "test_policy"
-  path        = "/"
-  description = "My test policy"
-
-  # Terraform's "jsonencode" function converts a
-  # Terraform expression result to valid JSON syntax.
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "ec2:Describe*",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
-    ]
-  })
-}
-
-resource "aws_iam_role_policy_attachment" "attachment" {
-  role       = aws_iam_role.role.name
-  policy_arn = data.aws_iam_policy.policy.arn
-}
 
 resource "vault_aws_secret_backend" "aws" {
   access_key = "AKIAWCLFHFHVDWSWO57T"
@@ -110,7 +61,7 @@ resource "vault_aws_secret_backend_role" "role" {
   ]
 }
 EOT
-}
+},
 
 # generally, these blocks would be in a different module
 data "vault_aws_access_credentials" "creds" {
