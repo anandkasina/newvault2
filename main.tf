@@ -60,7 +60,7 @@ resource "vault_aws_secret_backend_role" "role" {
   ]
 }
 EOT
-},
+}
 
 # generally, these blocks would be in a different module
 data "vault_aws_access_credentials" "creds" {
